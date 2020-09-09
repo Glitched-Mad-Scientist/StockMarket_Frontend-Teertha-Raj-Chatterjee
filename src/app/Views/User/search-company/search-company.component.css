@@ -1,0 +1,18 @@
+#companyDetails>tbody>tr>td:first-child{
+    text-align: right;
+}
+
+#companyDetails>tbody>tr>td:nth-child(2){
+    font-weight: bold;
+    padding-left: 1em;
+}    
+
+.suggestions{
+    cursor: pointer;
+    z-index: 1000;
+    background-color: #eee;
+}
+
+.suggestions:hover{
+    background-color: #f8f8f8;
+}

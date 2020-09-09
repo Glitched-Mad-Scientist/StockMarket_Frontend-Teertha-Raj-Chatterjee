@@ -1,0 +1,211 @@
+<app-back-button [backLink]="''"></app-back-button>
+
+<div class="row mb-4" *ngIf="!formVisible">
+    <div class="col-md-6 mx-auto">
+        <button 
+            class="btn btn-primary btn-block" 
+            (click)="this.adding = true && this.formVisible = true"
+        ><i class="fa fa-plus-circle"></i> add new company</button>
+    </div>
+</div>
+<div class="row mb-4" *ngIf="formVisible" id="companyForm">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center pb-4 pt-3" *ngIf="adding"> Add Company </h2>
+                <h2 class="text-center pb-4 pt-3" *ngIf="!adding"> Update Company </h2>
+                <hr>
+                <form #companyForm = "ngForm">
+                    <div class="form-group">
+                        <label>Company Name*</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newCompany.companyName"
+                        #CompanyName = "ngModel"
+                        (keyup)="this.isNameTaken()"
+                        [ngClass]="{
+                            'is-invalid': 
+                                (CompanyName.errors || this.isnametaken) && 
+                                CompanyName.touched,
+                            'is-valid': 
+                                !(CompanyName.errors || this.isnametaken) && 
+                                CompanyName.touched
+                        }"
+                        class="form-control"
+                        placeholder="Company Name" 
+                        name="CompanyName"
+                        required
+                        autofocus
+                        [disabled] = "!adding"
+                        >
+                        <div 
+                            [hidden]="!CompanyName.errors?.required" 
+                            class="invalid-feedback"
+                            > Company Name is required 
+                        </div>
+                        <div 
+                        [hidden]="!this.isnametaken" 
+                        class="invalid-feedback"
+                        > Company Name already in use </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Turnover</label>
+                        <input 
+                        type="number" 
+                        [(ngModel)]="newCompany.turnover"
+                        #turnover = "ngModel"
+                        [ngClass]="{
+                            'is-invalid': 
+                                turnover.errors && 
+                                turnover.touched
+                        }"
+                        class="form-control"
+                        name="turnover"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>CEO</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newCompany.ceo"
+                        #ceo = "ngModel"
+                        class="form-control"
+                        name="ceo"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Board of Directors</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newCompany.boardofDirectors"
+                        #boardOfDirectors = "ngModel"
+                        class="form-control"
+                        name="boardOfDirectors"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Echanges</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newCompany.stockExchanges"
+                        #stockExchanges = "ngModel"
+                        class="form-control"
+                        name="stockExchanges"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sector</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newCompany.sector"
+                        #sector = "ngModel"
+                        class="form-control"
+                        name="sector"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea
+                        class="form-control"
+                        [(ngModel)]="newCompany.description"
+                        #brief = "ngModel"
+                        name="description"
+                        rows="2"
+                        >
+                        </textarea>
+                    </div>
+
+                    <div class="custom-control custom-switch mb-4">
+                        <input 
+                            type="checkbox" 
+                            [(ngModel)]="newCompany.isActive"
+                            #isActive = "ngModel"
+                            class="custom-control-input" 
+                            name="isActive"
+                            id = "isActive"
+                        > <label class="custom-control-label" for="isActive">Active on create</label>
+                    </div>
+
+                    <button 
+                        *ngIf="adding"
+                        class="btn btn-primary" 
+                        [disabled]="!companyForm.form.valid"
+                        (click)="addCompany(this.newCompany)"
+                    > Add </button>
+                    <button 
+                        *ngIf="!adding"
+                        class="btn btn-warning" 
+                        [disabled]="!companyForm.form.valid"
+                        (click)="updateCompany(this.newCompany)"
+                    > Update </button>
+                    <button class="btn" (click)="resetAddForm()"> Cancel </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+        <table class="table-responsive text-light table-hover mx-auto">
+            <thead>
+                <tr>
+                    <th scope="col">Company Code</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Turnover</th>
+                    <th scope="col">CEO</th>
+                    <th scope="col">Board of Directors</th>
+                    <th scope="col">Stock Exchange</th>
+                    <th scope="col">Sector</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let company of companies">
+                <tr>
+                    <td >{{company.companyCode}}</td>
+                    <td >{{company.companyName}}</td>
+                    <td >{{company.turnover | currency:'INR':'symbol-narrow' }}</td>
+                    <td >{{company.ceo}}</td>
+                    <td >{{company.boardofDirectors}}</td>
+                    <td >{{company.stockExchanges}}</td>
+                    <td >{{company.sector}}</td>
+                    <td >{{company.description}}</td>
+                    <td >
+                        <span class="custom-control custom-switch">
+                            <input 
+                                type="checkbox" 
+                                class="custom-control-input" 
+                                id="isActive-{{company.companyCode}}" 
+                                [(ngModel)]="company.isActive"
+                                (change) = "updateCompany(company)"
+                            >
+                            <label 
+                                class="custom-control-label" 
+                                for="isActive-{{company.companyCode}}"
+                            ></label>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text-nowrap">
+                            <button 
+                                class="btn btn-warning btn-sm m-1" 
+                                (click)="editCompany(company)"
+                            >Edit <i class="fa fa-pencil fa-fw"></i> </button>
+                            <button 
+                                class="btn btn-danger btn-sm m-1" 
+                                (click)="deleteCompany(company.companyCode)"
+                            >Delete <i class="fa fa-trash fa-fw"></i> </button>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+

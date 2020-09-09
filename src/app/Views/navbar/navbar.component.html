@@ -1,0 +1,62 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="">Stock Market </a>
+  <div class="navbar-collapse collapse" id="navbarSupportedContent" style="">
+    <ul class="navbar-nav mr-auto" *ngIf="!loggedIn()">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="register">Register</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="login">Login</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto" *ngIf="isUser()">
+      <li class="nav-item"  routerLinkActive="active">
+        <a class="nav-link" routerLink="user/search">
+          Search Company
+        </a>
+      </li>
+      <li class="nav-item"  routerLinkActive="active">
+        <a class="nav-link" routerLink="user/company">
+          Compare Company
+        </a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mr-auto" *ngIf="isAdmin()">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="admin/excel">
+          Import Excel Data
+        </a>
+      </li>
+      <li class="nav-item"  routerLinkActive="active">
+        <a class="nav-link" routerLink="/admin/company">
+          Manage Companies
+        </a>
+      </li>
+      <li class="nav-item"  routerLinkActive="active">
+        <a class="nav-link" routerLink="admin/ipos">
+          Update IPO Details
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto" *ngIf="loggedIn()">
+      <li class="nav-item"  routerLinkActive="active">
+        <a class="nav-link" routerLink="profile">
+          <i class="fa fa-user"></i> {{name()}}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a 
+          href="javascript:void(0)" 
+          class="nav-link" 
+          (click)="logout()"
+        ><i class="fa fa-sign-out"></i>Logout</a>
+      </li>
+    </ul>
+    <form #loginForm="ngForm" class="form-inline mt-2 mt-md-0" *ngIf="!loggedIn()" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" name="usename" placeholder="Usename" required [(ngModel)]="user.Username">
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="user.Password">
+      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+    </form>
+  </div>
+</nav>

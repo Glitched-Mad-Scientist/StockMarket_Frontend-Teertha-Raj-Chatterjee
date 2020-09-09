@@ -1,0 +1,77 @@
+<app-back-button [backLink]="''"></app-back-button>
+
+<div class="row mb-4">
+    <div class="col-md-6 mx-auto">
+        <input 
+            #searchBox
+            type="text" 
+            class="form-control" 
+            (keyup)="search($event.target.value);" 
+            (focusin)="showSuggestions=true;"
+            (focusout)="showSuggestions=false"
+            placeholder="Enter two or more letters to view suggestions."
+        >
+        <div id="suggestions" class="position-absolute" *ngIf="showSuggestions && suggestions">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <li 
+                        class="list-group-item suggestions"
+                        *ngFor="let suggestion of suggestions"
+                        (mousedown) ="setCompany(suggestion); showSuggestions=false; searchBox.blur()"
+                    >
+                        {{suggestion.companyName}} ({{suggestion.companyCode}})
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="company">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{company.companyName}}</h5>
+                <hr>
+                <table id="companyDetails">
+                    <tbody>
+                        <tr *ngIf="company.companyCode">
+                            <td>Company Code: </td>
+                            <td>{{company.companyCode}}</td>
+                        </tr>
+                        <tr *ngIf="company.turnover">
+                            <td>Turnover: </td>
+                            <td>{{company.turnover | currency:'INR':'symbol-narrow' }}</td>
+                        </tr>
+                        <tr *ngIf="company.ceo">
+                            <td>CEO: </td>
+                            <td>{{company.ceo}}</td>
+                        </tr>
+                        <tr *ngIf="company.boardofDirectors">
+                            <td>Board of Directors: </td>
+                            <td>{{company.boardofDirectors}}</td>
+                        </tr>
+                        <tr *ngIf="company.stockExchanges">
+                            <td>Stock Exchanges: </td>
+                            <td>{{company.stockExchanges}}</td>
+                        </tr>
+                        <tr *ngIf="company.sector">
+                            <td>Sector: </td>
+                            <td>{{company.sector}}</td>
+                        </tr>
+                        <tr *ngIf="company.description">
+                            <td>Brief: </td>
+                            <td>{{company.description}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center" *ngIf="!company">
+    <h6>No results</h6>
+</div>
+
+

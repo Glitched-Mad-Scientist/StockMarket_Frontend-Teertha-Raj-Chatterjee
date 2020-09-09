@@ -1,0 +1,181 @@
+<app-back-button [backLink]="''"></app-back-button>
+
+<div class="row mb-4" *ngIf="!formVisible">
+    <div class="col-md-6 mx-auto">
+        <button 
+            class="btn btn-primary btn-block" 
+            (click)="this.adding = true && this.formVisible = true"
+        ><i class="fa fa-plus-circle"></i> Add New IPO</button>
+    </div>
+</div>
+<div class="row mb-4" *ngIf="formVisible" id="ipoForm">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center pb-4 pt-3" *ngIf="adding"> Add IPO </h2>
+                <h2 class="text-center pb-4 pt-3" *ngIf="!adding"> Update IPO </h2>
+                <hr>
+                <form #companyForm = "ngForm">
+                    <div class="form-group">
+                        <label>Company Name*</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newIPO.companyName"
+                        #CompanyName = "ngModel"
+                        [ngClass]="{
+                            'is-invalid': 
+                                CompanyName.errors && CompanyName.touched,
+                            'is-valid': 
+                                !(CompanyName.errors) && CompanyName.touched
+                        }"
+                        class="form-control"
+                        placeholder="Company Name" 
+                        name="CompanyName"
+                        required
+                        autofocus
+                        [disabled] = "!adding"
+                        >
+                        <div 
+                            [hidden]="!CompanyName.errors?.required" 
+                            class="invalid-feedback"
+                            > Company Name is required 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Company Code</label>
+                        <input 
+                        type="number" 
+                        [(ngModel)]="newIPO.companyCode"
+                        #companyCode = "ngModel"
+                        [ngClass]="{
+                            'is-invalid': 
+                                companyCode.errors && 
+                                companyCode.touched
+                        }"
+                        class="form-control"
+                        name="companyCode"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stock Exchange</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="newIPO.stockExchange"
+                        #stockExchange = "ngModel"
+                        class="form-control"
+                        name="stockExchange"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Price Per Share</label>
+                        <input 
+                        type="number" 
+                        [(ngModel)]="newIPO.pricePerShare"
+                        #pricePerShare = "ngModel"
+                        [ngClass]="{
+                            'is-invalid': 
+                                pricePerShare.errors && 
+                                pricePerShare.touched
+                        }"
+                        class="form-control"
+                        name="pricePerShare"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Number of Share</label>
+                        <input 
+                        type="number" 
+                        [(ngModel)]="newIPO.totalNumberOfShares"
+                        #totalNumberOfShares = "ngModel"
+                        [ngClass]="{
+                            'is-invalid': 
+                                totalNumberOfShares.errors && 
+                                totalNumberOfShares.touched
+                        }"
+                        class="form-control"
+                        name="totalNumberOfShares"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Open Date</label>
+                        <input 
+                        type="datetime-local" 
+                        [(ngModel)]="newIPO.openDate"
+                        #openDate = "ngModel"
+                        class="form-control"
+                        name="openDate"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Remarks</label>
+                        <textarea
+                        class="form-control"
+                        [(ngModel)]="newIPO.remarks"
+                        #remarks = "ngModel"
+                        name="remarks"
+                        rows="2"
+                        >
+                        </textarea>
+                    </div>
+
+                    <button 
+                        *ngIf="adding"
+                        class="btn btn-primary" 
+                        [disabled]="!companyForm.form.valid"
+                        (click)="addIPO(this.newIPO)"
+                    > Add </button>
+                    <button 
+                        *ngIf="!adding"
+                        class="btn btn-warning" 
+                        [disabled]="!companyForm.form.valid"
+                        (click)="updateIPO(this.newIPO)"
+                    > Update </button>
+                    <button class="btn" (click)="resetAddForm()"> Cancel </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+        <table class="table-responsive text-light table-hover mx-auto">
+            <thead>
+                <tr>
+                    <th scope="col">Company Code</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Stock Exchange</th>
+                    <th scope="col">Price per Share</th>
+                    <th scope="col">No. of Shares</th>
+                    <th scope="col">Open Date</th>
+                    <th scope="col">Remarks</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let ipo of ipos">
+                <tr>
+                    <td >{{ipo.companyName}}</td>
+                    <td >{{ipo.companyCode}}</td>
+                    <td >{{ipo.stockExchange}}</td>
+                    <td >{{ipo.pricePerShare | currency:'INR':'symbol-narrow' }}</td>
+                    <td >{{ipo.totalNumberOfShares}}</td>
+                    <td >{{ipo.openDate.substring(0,10)}}</td>
+                    <td >{{ipo.remarks}}</td>
+                    <td>
+                        <span class="text-nowrap">
+                            <button 
+                                class="btn btn-warning btn-sm m-1" 
+                                (click)="editIPO(ipo)"
+                            >Edit <i class="fa fa-pencil fa-fw"></i> </button>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+

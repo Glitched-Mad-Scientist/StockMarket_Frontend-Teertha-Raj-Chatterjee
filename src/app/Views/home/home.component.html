@@ -1,0 +1,14 @@
+<div class="text-black pt-3" id="welcome">
+    <div class="col-md px-0 container-fluid">
+        <h1 class="display-4 font-italic">Welcome {{username}}</h1>
+        <div id="suggestions" *ngIf="role=='User'">
+            <p class="lead mb-0"><a routerLink="user/search" class="text-white font-weight-bold">Search Company</a></p>
+            <p class="lead mb-0"><a routerLink="user/company" class="text-white font-weight-bold">Compare Company</a></p>
+        </div>
+        <div id="suggestions" *ngIf="role=='Admin'">
+            <p class="lead mb-0"><a routerLink="admin/excel" class="text-white font-weight-bold">Import Excel Data</a></p>
+            <p class="lead mb-0"><a routerLink="admin/company" class="text-white font-weight-bold">Manage Companies</a></p>
+            <p class="lead mb-0"><a routerLink="admin/ipos" class="text-white font-weight-bold">Update IPO Details</a></p>
+        </div>
+    </div>
+</div>

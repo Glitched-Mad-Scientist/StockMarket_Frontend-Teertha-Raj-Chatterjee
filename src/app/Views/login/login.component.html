@@ -1,0 +1,75 @@
+<div id="login-form">
+    <h2>Login</h2>
+    <hr>
+
+    <div 
+      *ngIf="errMsg" 
+      class="alert alert-danger" 
+      role="alert"
+    >{{errMsg}}</div>
+
+    <form 
+      #loginForm = "ngForm" 
+      (ngSubmit)="onSubmit()"
+    >
+
+        <div class="form-group">
+          <label>Username*</label>
+          <input 
+            type="text" 
+            [(ngModel)]="user.Username"
+            #username = "ngModel"
+            [ngClass]="{
+              'is-invalid': 
+                username.errors && 
+                username.touched
+            }"
+            class="form-control"
+            placeholder="Username" 
+            name="username"
+            required
+            pattern="^[a-zA-Z0-9_]+$"
+            autofocus
+          >
+          <div 
+            [hidden]="!username.errors?.required" 
+            class="invalid-feedback"
+          > Username is required </div>
+          <div 
+            [hidden]="!username.errors?.pattern" 
+            class="invalid-feedback"
+          >
+            "Username should be 3 to 30 characters long 
+            and only contains letters(a-z, A-Z), 
+            digits(0-9) and underscore(_)."
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password*</label>
+          <input 
+            type="password" 
+            [(ngModel)]="user.Password"
+            #password = "ngModel"
+            [ngClass]="{
+              'is-invalid': 
+                password.errors && 
+                password.touched
+            }"
+            class="form-control" 
+            placeholder="Password" 
+            name="password"
+            required
+          >
+          <div 
+            [hidden]="!password.errors?.required" 
+            class="invalid-feedback"
+          > Password is required </div>
+        </div>
+
+        <button
+          class="btn btn-primary"
+        >Login</button>
+
+    </form>
+</div>

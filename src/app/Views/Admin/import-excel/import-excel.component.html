@@ -1,0 +1,90 @@
+<app-back-button [backLink]="''"></app-back-button>
+
+<div class="row mb-4">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center pb-4 pt-3">Import Excel</h2>
+                <hr>
+                <form #excelForm="ngForm" (ngSubmit)="onSubmit(excelForm)">
+                    <div class="form-group">
+                        <label class="sr-only">Select</label>
+                        <input
+                            type="file" 
+                            accept=".xlsx,.xls"
+                            class="form-control-file col-md-8" 
+                            [ngClass]="{
+                                'is-invalid': 
+                                    excelForm.controls.fileInput?.errors && 
+                                    excelForm.controls.fileInput?.touched
+                              }"
+                            name="fileInput"
+                            (change)="handleFileInput($event.target.files)"
+                            ngModel 
+                            required
+                        >
+                        <div 
+                            [hidden]="!excelForm.controls.fileInput?.errors?.required" 
+                            class="invalid-feedback"
+                        > Please choose a file </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Worksheet*</label>
+                        <input
+                            type="text" 
+                            class="form-control"
+                            name="worksheetName"
+                            placeholder="Worksheet Name"
+                            ngModel="Sheet1"
+                            [ngClass]="{
+                                'is-invalid': 
+                                    excelForm.controls.worksheetName?.errors && 
+                                    excelForm.controls.worksheetName?.touched
+                              }"
+                            required
+                        >
+                        <div 
+                            [hidden]="!excelForm.controls.worksheetName?.errors?.required" 
+                            class="invalid-feedback"
+                        > Worksheet Name is required </div>
+                    </div>
+
+                    <button 
+                        class="btn btn-primary" 
+                        [disabled]="!excelForm.form.valid || loading"
+                    > Import </button>
+                    <a (click)="downloadSample()" class="btn btn-link">Download Template</a> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center" *ngIf="stockPrices.length">
+    <div class="col-auto">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Company Code</th>
+                    <th scope="col">Stock Exchange</th>
+                    <th scope="col">Current Price</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let sp of stockPrices">
+                    <td>{{sp.Id}}</td>
+                    <td>{{sp.CompanyCode}}</td>
+                    <td>{{sp.StockExchange}}</td>
+                    <td>{{sp.CurrentPrice | currency:'INR':'symbol-narrow' }}</td>
+                    <td>{{sp.Date | date:'shortDate'}}</td>
+                    <td>{{sp.Time}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

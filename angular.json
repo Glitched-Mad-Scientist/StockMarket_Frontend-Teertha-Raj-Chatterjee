@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "StockMarket-Frontend"
+    }
+  },
+  "defaultProject": "StockMarket-Frontend",
+  "cli": {
+    "analytics": false
+  }
 }

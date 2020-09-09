@@ -1,0 +1,67 @@
+<app-back-button [backLink]="''"></app-back-button>
+<div class="row mb-4" id="profileForm">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="text-center pb-4 pt-3"> Edit Profile </h2>
+                <hr>
+                <form #profileForm = "ngForm">
+                    <div class="form-group">
+                        <label>Name*</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="user.Username"
+                        #username = "ngModel"
+                        class="form-control"
+                        placeholder="username" 
+                        name="username"
+                        [disabled] = "true"
+                        required
+                        autofocus
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input 
+                        type="password" 
+                        [(ngModel)]="user.Password"
+                        #password = "ngModel"
+                        class="form-control"
+                        name="password"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input 
+                        type="email" 
+                        [(ngModel)]="user.Email"
+                        #email = "ngModel"
+                        class="form-control"
+                        name="email"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input 
+                        type="text" 
+                        [(ngModel)]="user.Mobile"
+                        #Mobile = "ngModel"
+                        class="form-control"
+                        name="Mobile"
+                        >
+                    </div>
+
+                    <button 
+                        class="btn btn-warning" 
+                        [disabled]="!profileForm.form.valid"
+                        (click)="updateProfile(this.user)"
+                    > Update </button>
+                    <button class="btn" (click)="resetForm()"> Cancel </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

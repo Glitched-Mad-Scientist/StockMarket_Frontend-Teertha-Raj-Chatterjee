@@ -1,0 +1,12 @@
+#signup-form{
+    width: 500px;
+    margin: auto;
+    padding: 2rem;
+}
+
+
+@media (max-width: 500px) {
+    #signup-form {
+      width: 90%;
+    }
+}
