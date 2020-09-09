@@ -26,7 +26,7 @@ export class ImportExcelComponent implements OnInit {
 
   onSubmit(formData: any): void{
     this.service
-      .importExcel(this.fileToUpload, this.form.value.worksheetName)
+      .importExcel(this.form.value.fileInput, this.form.value.worksheetName)
       .subscribe(data => {this.stockPrices = data}, err => {
         let errMsg = '';
         if (err.error instanceof ErrorEvent) {
@@ -35,7 +35,7 @@ export class ImportExcelComponent implements OnInit {
         else {
             errMsg = `Error ${err.status} - ${err.error}`;
         }
-        // console.log(err)
+        console.log(err);
         this.flashMessage.show( errMsg, {cssClass: 'alert-danger', timeout: 4000} );
       });
   }

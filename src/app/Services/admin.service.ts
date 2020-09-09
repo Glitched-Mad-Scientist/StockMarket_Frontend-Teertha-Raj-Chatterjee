@@ -64,7 +64,8 @@ export class AdminService {
 
   public importExcel(fileToUpload:File, worksheetName:string):Observable<StockPrice[]>{
     const formData: FormData = new FormData();
-    formData.append('ExcelFile', fileToUpload, fileToUpload.name);
+    formData.append('ExcelFile', fileToUpload);
+    formData.set('ExcelFileName', fileToUpload.name);
     formData.set('Worksheet', worksheetName);
 
     const http:HttpClient = new HttpClient(this.handler);
